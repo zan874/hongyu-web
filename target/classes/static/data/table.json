@@ -1,0 +1,22 @@
+[{
+    "text": "导入系统",
+    "iconCls": "icon-sum",
+    "state": "open",
+    "children": [{
+        "text": "人员导入1"
+    },{
+        "text": "课程导入2"
+    }]
+},{
+    "text": "智能排课",
+    "iconCls": "icon-more",
+    "children": [{
+        "text": "课程设置"
+    },{
+        "text": "教师课表"
+    },{
+        "text": "班级课表"
+    },{
+        "text": "学生课表"
+    }]
+}]

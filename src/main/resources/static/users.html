@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ajax Demo</title>
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+	<!-- EasyUI -->
+    <link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="./themes/icon.css">
+	<script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <style>
+        #mytable1 {
+            width:700px;
+            padding:0;
+            margin:0;
+            text-align: center;
+        }
+        caption {
+            padding:0 0 5px 0;
+            width:700px;
+            font:italic 11px “Trebuchet MS”,Verdana,Arial,Helvetica,sans-serif;
+            text-align:right;
+        }
+        th {
+            font:bold 11px “Trebuchet MS”,Verdana,Arial,Helvetica,sans-serif;
+            color:#4f6b72;
+            border-right:1px solid #C1DAD7;
+            border-bottom:1px solid #C1DAD7;
+            border-top:1px solid #C1DAD7;
+            letter-spacing:2px;
+            text-transform:uppercase;
+            text-align:center;
+            padding:6px 6px 6px 12px;
+            background:#CAE8EA no-repeat;
+        }
+        th.nobg {
+            border-top:0;
+            border-left:0;
+            border-right:1px solid #C1DAD7;
+            background:none;
+        }
+        td {
+            border-right:1px solid #C1DAD7;
+            border-bottom:1px solid #C1DAD7;
+            background:#fff;
+            font-size:11px;
+            padding:6px 6px 6px 12px;
+            color:#4f6b72;
+        }
+        td.alt {
+            background:#F5FAFA;
+            color:#797268;
+        }
+        th.spec {
+            border-left:1px solid #C1DAD7;
+            border-top:0;
+            background:#fff no-repeat;
+            font:bold 10px “Trebuchet MS”,Verdana,Arial,Helvetica,sans-serif;
+        }
+        th.specalt {
+            border-left:1px solid #C1DAD7;
+            border-top:0;
+            background:#f5fafa no-repeat;
+            font:bold 10px “Trebuchet MS”,Verdana,Arial,Helvetica,sans-serif;
+            color:#797268;
+        }
+    </style>
+    <script>        
+        // 发起服务端请求触发的函数
+        function getPage(){
+            $.get({
+                // 要请求的服务端接口地址
+                url: '/user/page', 
+                // 要发送的参数数据
+                data: {
+                    pg: $('#btPg').val(), 
+                    sz: $('#btSz').val()
+                },
+                success: function(responseResult) {
+                    // if(responseResult.success=="false"){
+                    //     alert(responseResult.error);
+                    //     return;
+                    // }
+                    //
+                    var data = responseResult;//.result;
+                    if(data.rows){
+                        var html = [];
+                        html.push('<table id="mytable1">');
+                        // thead
+                        html.push('<thead>');
+                        html.push('<th>用户名</th><th>电话</th><th>操作</th>');
+                        html.push('</thead>');
+                        // tbody
+                        html.push('<tbody>');
+                        for(var i=0;i<data.rows.length;i++){
+                            html.push('<tr>');
+                            var user = data.rows[i];
+                            //
+                            html.push('<td>');
+                            html.push(user.name);
+                            html.push('</td>');
+                            html.push('<td>');
+                            html.push(user.phone);
+                            html.push('</td>');
+                            // 操作按钮
+                            html.push('<td><a target="_blank" href="index.html?q=abc">详情</a> <input type="button" value="删除" onclick="removeUser(\'' + user.name + '\')"></td>');
+                            html.push('</tr>');
+                        }
+                        html.push('</tbody>');
+                        // 把指定控件的内容换做服务端返回的内容
+                        $('#tableView').html(html.join(''));
+                        return;
+                    }
+                    $('#tableView').html('<i>内容为空</i>');
+                },
+                error: function(err){
+                    alert(err.statusText);
+                }
+            });
+        }
+        // 新增数据
+        function addUser(){            
+            $.post({
+                // 要请求的服务端接口地址
+                url: '/user/add', 
+                // 要发送的参数数据
+                data: {
+                    name: $('#ipUserName').val(),
+                    phone: $('#ipPhone').val()
+                },
+                success: function(data) {
+                    getPage();
+                },
+                error: function(err){
+                    alert(err.statusCode);
+                }
+            });
+        }
+        // 点击图表中按钮触发的函数
+        function removeUser(userName){         
+            $.post({
+                // 要请求的服务端接口地址
+                url: '/user/remove', 
+                // 要发送的参数数据
+                data: {
+                    name: userName
+                },
+                success: function(data) {
+                    // getPage();
+                },
+                error: function(err){
+                    alert(err);
+                }
+            });
+        }
+        // 生成每行的操作按钮
+        function formatOper(val,row,index){ 
+            return '<a href="#" rel="external nofollow" onclick="$(\'#dlgEdit\').dialog(\'open\').dialog(\'{title:'+row.id+'}\');">修改</a>'; 
+        } 
+        // 新增的按钮点击后执行的方法
+        function datagridNew(){
+            $('#dlgNew').dialog('open');
+        }
+        function datagridRemove(){
+            var items = $('#tbl').datagrid('getChecked');
+            for(var i = 0;i < items.length;i++){
+                removeUser(items[i].name);
+            } 
+            $('#tbl').datagrid('reload');
+        }
+        // 网页加载完成后，关闭已有的弹出对话框 
+        $(document).ready(function(){
+            $('#dlgNew').dialog('close');
+            $('#dlgEdit').dialog('close');
+        });
+    </script>
+</head>
+
+<body>
+    <!-- <h2>用户信息管理</h2>   
+    <hr>
+    <h2>列表</h2>
+    分页序号 <input id="btPg" style="width:40px" value="1"> 分页大小 <input id="btSz" style="width:40px" value="10"> <input type="button" onclick="getPage()" value="获取分页"> <br/>
+    <div id="tableView"></div>
+    <hr>
+    <h2>新增</h2>
+    
+    <h2>上传</h2>
+    <form accept="/abd">
+        <b>上传学生名单</b><input type="file">
+    </form> -->
+    <table id="tbl" class="easyui-datagrid" title="用户信息" style="width:700px;height:600px"
+            data-options="pagination:true,rownumbers:true,url:'/user/page',idField:'id',singleSelect:true,collapsible:true,method:'get',toolbar: [{
+                iconCls: 'icon-edit',
+                text: '新建',
+                handler: datagridNew
+            },{
+                iconCls: 'icon-remove',
+                text: '删除',
+                handler: datagridRemove
+            }]">
+        <thead>
+            <tr>
+                <th data-options="field:'_',width:80,checkbox:true">#</th>
+                <th data-options="field:'id',width:80">ID</th>
+                <th data-options="field:'name',width:100">名称</th>
+                <th data-options="field:'phone',width:80,align:'right'">电话号码</th>
+                <th data-options="field:'_operate',width:80,align:'center',formatter:formatOper">操作栏</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="dlgNew" class="easyui-dialog" title="新建" data-options="iconCls:'icon-save'" style="width:400px;height:200px;padding:10px">
+		用户名称 <input id="ipUserName" style="width:40px" value="abc"> 电话号码 <input id="ipPhone" style="width:40px" value="13543987645"> <input type="button" onclick="addUser()" value="新增用户">
+	</div>
+    <div id="dlgEdit" class="easyui-dialog" title="编辑" data-options="iconCls:'icon-save'" style="width:400px;height:200px;padding:10px">
+		The dialog content.
+	</div>
+</body>
+
+</html>

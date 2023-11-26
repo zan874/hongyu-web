@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>江西财经大学课程表</title>
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+	<!-- EasyUI -->
+    <link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="./themes/icon.css">
+	<script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <style>  
+        .center-container {  
+            display: flex;  
+            justify-content: center;  
+            align-items: center;  
+            height: 100vh;  
+        }  
+          
+        #tbl {  
+            margin: 0 auto; /* 水平居中 */  
+            align-items: center;
+        }  
+    </style>   
+</head>
+
+<body>
+    <div class="center-container">
+     <table id="tbl" class="easyui-datagrid" title="江西财经大学课程表" style="width:700px;height:600px"
+            data-options="rownumbers:false,url:'data/studentcourses.json',singleSelect:true,collapsible:true,method:'get'">
+        <thead>
+            <tr>
+                <th data-options="field:'num',width:100">课节</th>
+                <th data-options="field:'mon',width:100">周一</th>
+                <th data-options="field:'tur',width:100">周二</th>
+                <th data-options="field:'wes',width:100">周三</th>
+                <th data-options="field:'thur',width:100">周四</th>
+                <th data-options="field:'fri',width:100">周五</th>
+                <th data-options="field:'sat',width:100">周六</th>
+                <th data-options="field:'sun',width:100">周日</th>
+            </tr>
+        </thead>
+     </table>
+    </div>
+</body>
+
+</html>

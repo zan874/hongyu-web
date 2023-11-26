@@ -1,0 +1,11 @@
+{
+    "total":20, "rows": [
+        {"name":"姓名","class":"授课班级","xibie":"所属系别","xueyuan":"所属学院","caozuo":"查看课程"},
+        {"name":"张三","class":"17101","xibie":"计算机科学与技术","xueyuan":"计算机科学与技术学院","caozuo":"查看课程"},
+        {"name":"李四","class":"17101","xibie":"计算机科学与技术","xueyuan":"计算机科学与技术学院","caozuo":"查看课程"},
+        {"name":"王五","class":"17101","xibie":"计算机科学与技术","xueyuan":"计算机科学与技术学院","caozuo":"查看课程"}, 
+        {"name":"王6","class":"17101","xibie":"计算机科学与技术","xueyuan":"计算机科学与技术学院","caozuo":"查看课程"},
+        {"name":"王7","class":"17101","xibie":"计算机科学与技术","xueyuan":"计算机科学与技术学院","caozuo":"查看课程"}       
+
+   ]
+}

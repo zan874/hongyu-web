@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html style="width: 100%;height: 100px;">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+	<title>Basic SideMenu - jQuery EasyUI Demo</title>
+	<!-- jQuery -->
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+	<!-- EasyUI -->
+    <link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="./themes/icon.css">
+	<script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <style>  
+        .easyui-layout .region-west {  
+            width: 150px !important; /* 设置侧边菜单的宽度为150像素 */  
+            height: 100% !important; /* 设置侧边菜单的高度为100% */  
+        }  
+          
+        #sm {  
+            width: 100%; /* 设置内部菜单的宽度为100% */  
+            height: 100%; /* 设置内部菜单的高度为100% */  
+        }  
+    </style>
+</head>
+<body style="width: 100%;;height:100%">
+    <div class="easyui-layout" style="width:100%;height: 1000px;">
+		<div data-options="region:'north'" style="height:100px">        
+            <h2>鸿宇创新班</h2>
+            <p>个人中心/数据导入/排课系统</p>
+        </div>
+		<!-- <div data-options="region:'south',split:true" style="height:50px;"></div> -->
+		<!-- <div data-options="region:'east',split:true" title="East" style="width:100px;"></div> -->
+        <div data-options="region:'west',split:true" title="我的菜单" style="width:150px;">  
+            <div id="sm" class="easyui-sidemenu" data-options="data:data, onSelect:select"></div>  
+        </div>
+		<div data-options="region:'center',title:'查看界面',iconCls:'icon-ok'">
+			<iframe id="ifContent" style="width:100%;height:100%" src=""></iframe>
+		</div>
+	</div>
+    
+	<script type="text/javascript">
+
+		var data = [{
+            text: '导入系统',
+            iconCls: 'icon-sum',
+            state: 'open',
+            children: [{
+                text: '人员导入',
+                url: 'users.html'
+            },{
+                text: '课程导入',
+                url: './data/table.json'
+            }]
+        },{
+            text: '智能排课',
+            iconCls: 'icon-more',
+            state: 'open',
+            children: [{
+                text: '课程设置',
+                url: 'settingcourse.html'
+            },{
+                text: '教师课表'
+                
+            },{
+                text: '班级课表'
+            },{
+                text: '学生课表',
+                url: 'studentcourses.html'
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            },{
+                text: ''
+            }]
+        }];
+
+        
+        function select(item){
+            $('#ifContent').attr('src', item.url);
+        }
+        
+	</script>
+</body>
+</html>
